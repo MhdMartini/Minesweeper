@@ -4,6 +4,10 @@
 
 2- Threading
 
+3- OS directory operations
+
+4- Writing and reading Json files
+
 # Game Features:
 1- Four different levels:
   - beginner: 12x12
