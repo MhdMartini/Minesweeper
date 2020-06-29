@@ -15,11 +15,11 @@
   - expert: 25x25
   - boss: 40x40
   
-2- Left-mouse click on emoji icon restart the game it its current level.
+2- File option menu allows for choosing game level
 
-3- File option menu allows for choosing game level
+3- Left-mouse click on emoji icon restart the game it its current level.
   
-4- Game begins with an open cluster to minimize luck on first try.
+4- Game begins with a random open cluster to minimize luck on first try.
 
 5- Right-mouse click on a button toggles the button from normal mode to flagged mode to question-mark mode.
 
