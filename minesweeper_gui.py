@@ -361,7 +361,7 @@ class MineSweeperGui:
         # Display the difference between the old and the new score, if an old score exists
         # Else, just display the new score
         try:
-            text = f"{self.level[self.side_length]}: {score} s\n(-{int(old_score)-score}s)"
+            text = f"{self.level[self.side_length]}: {score}s\n(-{int(old_score)-score}s)"
         except ValueError:
             text = f"{self.level[self.side_length]}: {score}s"
         label2 = Label(score_window, text=text)
