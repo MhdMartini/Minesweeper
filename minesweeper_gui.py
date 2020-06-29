@@ -28,6 +28,8 @@ class MineSweeperGui:
     def __init__(self, master, minesweeper_grid):
         self.master = master
         self.master.resizable(width=False, height=False)
+        self.master.title('Minesweeper')
+        self.master.iconbitmap('icon.ico')
         self.GAME = False
 
         self.minesweeper_grid = minesweeper_grid                    # Making the grid a global attribute
@@ -312,8 +314,6 @@ class MineSweeperGui:
 def main(level):
     t = MineSweeper(level)
     root = Tk()
-    # ctr.start()
-    root.title('Minesweeper')
     MineSweeperGui(root, t)
     root.mainloop()
 
