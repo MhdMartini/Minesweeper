@@ -2,6 +2,8 @@ from tkinter import *
 import time
 from PIL import Image, ImageTk
 import threading
+import os
+import json
 from minesweeper import *
 
 
@@ -24,6 +26,13 @@ class MineSweeperGui:
         "7": "black",
         "8": "black"
     }
+    level = {
+        # Side length: level
+        12: "beginner",
+        16: "intermediate",
+        25: "expert",
+        40: "boss",
+    }
 
     def __init__(self, master, minesweeper_grid):
         self.master = master
@@ -32,10 +41,10 @@ class MineSweeperGui:
         self.master.iconbitmap('icon.ico')
         self.GAME = False
 
-        self.minesweeper_grid = minesweeper_grid                    # Making the grid a global attribute
-        self.side_length = minesweeper_grid.side_length             # Side length of grid
-        self.flags_count = len(self.minesweeper_grid.mine_tiles)    # mine_count - number of flags
-        self.mine_count = len(self.minesweeper_grid.mine_tiles)     # Total number of mines in grid
+        self.minesweeper_grid = minesweeper_grid  # Making the grid a global attribute
+        self.side_length = minesweeper_grid.side_length  # Side length of grid
+        self.flags_count = len(self.minesweeper_grid.mine_tiles)  # mine_count - number of flags
+        self.mine_count = len(self.minesweeper_grid.mine_tiles)  # Total number of mines in grid
 
         # Define images
         self.mine = ImageTk.PhotoImage(Image.open('mine.png'))
@@ -50,9 +59,9 @@ class MineSweeperGui:
         self.fill_menu_bar()
 
         # Create and pack frames
-        self.main_frame = Frame(self.master, bg="snow")     # Grid frame
+        self.main_frame = Frame(self.master, bg="snow")  # Grid frame
         self.main_frame.pack()
-        self.status_frame = Frame(self.master, bg="snow")   # Status frame above the grid
+        self.status_frame = Frame(self.master, bg="snow")  # Status frame above the grid
         self.fill_status_frame()
 
         # create buttons
@@ -144,6 +153,7 @@ class MineSweeperGui:
         # Binds buttons to function with arguments
         def executor(event):
             function(argument)
+
         widget.bind(event_, executor)
 
     def display(self, tile_name):
@@ -191,6 +201,7 @@ class MineSweeperGui:
                 flipped_tiles_count == (self.minesweeper_grid.tile_count - self.mine_count)):
             self.emoji_label.configure(image=self.happy)
             self.GAME = False
+            self.update_score()
 
     def toggle(self, tile_name):
         # Change button image only if button is not flipped
@@ -296,7 +307,7 @@ class MineSweeperGui:
         self.master.destroy()
         main(level.lower())
 
-    def counter(self    ):
+    def counter(self):
         t = 0
         while True:
             if t == 999:
@@ -310,6 +321,60 @@ class MineSweeperGui:
                 t += 1
                 continue
             return t
+
+    def update_score(self):
+        score = int(self.time_entry["text"])
+        user = os.getlogin()
+        path = os.path.join(r"C:\Users", user, "Documents", "Minesweeper")
+        if not os.path.exists(path):
+            os.makedirs(path)
+            with open(os.path.join(path, "leader_board.json"), "w") as file:
+                initial_file = {
+                    "beginner": "",
+                    "intermediate": "",
+                    "expert": "",
+                    "boss": "",
+                }
+                file.write(json.dumps(initial_file))
+        with open(os.path.join(path, "leader_board.json"), "r") as file:
+            j = json.load(file)
+        old_score = j[self.level[self.side_length]]
+
+        if (not old_score) or (score < old_score):
+            j[self.level[self.side_length]] = score
+            with open(os.path.join(path, "leader_board.json"), "w") as file:
+                file.write(json.dumps(j))
+            self.display_score(score, old_score)
+        # import data from txt, update txt, and save it
+
+    def display_score(self, score, old_score):
+        # Create new window
+        score_window = Tk()
+        score_window.title('Minesweeper')
+        score_window.iconbitmap('icon.ico')
+        score_window.geometry("300x110")
+        score_window.resizable(width=False, height=False)
+
+        label1 = Label(score_window, text="New Score!", fg="red")
+        label1.config(font=(self.FONT, self.FONT_SIZE, "bold"))
+
+        # Display the difference between the old and the new score, if an old score exists
+        # Else, just display the new score
+        try:
+            text = f"{self.level[self.side_length]}: {score} s\n(-{int(old_score)-score}s)"
+        except ValueError:
+            text = f"{self.level[self.side_length]}: {score}s"
+        label2 = Label(score_window, text=text)
+        label2.config(font=(self.FONT, self.FONT_SIZE))
+
+        # Quit button
+        button = Button(score_window, text="Ok", command=score_window.destroy)
+
+        # Grid score_window widgets
+        label1.grid(row=0, padx=30, sticky=EW)
+        label2.grid(row=1, padx=70, sticky=EW)
+        button.grid(row=2, pady=10, ipadx=10)
+
 
 def main(level):
     t = MineSweeper(level)
