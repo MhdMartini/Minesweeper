@@ -31,6 +31,6 @@
   
 8- Number of mines is shown in the top-left corner; time elapsed is shown in the top-right corner.
 
-9- When player wins, elapsed time is stopped and saved in in a Json file in the user directory under a "Minesweeper" folder.
+9- When player wins, elapsed time is stopped and saved in in a Json file in the C:\Users\user directory under a "Minesweeper" folder.
   
-10- If player achieves a new score, the output Json file is updated accordingly, and the player gets notified of their new score, in addition to the time differnce between their old score and new score.
+10- If player achieves a new score, the output Json file is updated accordingly, and the player gets notified of their new score in addition to the time differnce between their old score and new score.
