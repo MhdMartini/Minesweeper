@@ -8,6 +8,8 @@
 
 4- Writing and reading Json files
 
+5- Saving python project as an executable (.exe file)
+
 # Game Features:
 1- Four different levels:
   - beginner: 12x12
