@@ -37,6 +37,7 @@ class MineSweeperGui:
     def __init__(self, master, minesweeper_grid):
         self.master = master
         self.master.resizable(width=False, height=False)
+        self.master.geometry("+800+300")
         self.master.title('Minesweeper')
         self.master.iconbitmap('icon.ico')
         self.GAME = False
@@ -352,7 +353,7 @@ class MineSweeperGui:
         score_window = Tk()
         score_window.title('Minesweeper')
         score_window.iconbitmap('icon.ico')
-        score_window.geometry("300x110")
+        score_window.geometry("280x110+1000+600")
         score_window.resizable(width=False, height=False)
 
         label1 = Label(score_window, text="New Score!", fg="red")
